@@ -5,9 +5,9 @@ package com.mason.meizu.reflect;
  * 
  * @author mason 20160309
  */
-public class ReflectInstance extends ReflectExecutor {
+public class RInstance extends RExecutor {
 
-	protected ReflectClass reflectClass;
+	protected RClass reflectClass;
 	protected Object instance;
 
 	/**
@@ -18,7 +18,7 @@ public class ReflectInstance extends ReflectExecutor {
 	 * @param instance
 	 *            当前实例
 	 */
-	public ReflectInstance(ReflectClass reflectClass, Object instance) {
+	public RInstance(RClass reflectClass, Object instance) {
 		if (reflectClass == null) {
 			throw new IllegalArgumentException("reflectClass can't be null");
 		}
@@ -37,8 +37,8 @@ public class ReflectInstance extends ReflectExecutor {
 	 * @param instance
 	 *            值
 	 */
-	public ReflectInstance(Class<?> type, Object instance) {
-		this(new ReflectClass(type), instance);
+	public RInstance(Class<?> type, Object instance) {
+		this(new RClass(type), instance);
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class ReflectInstance extends ReflectExecutor {
 	 * @param instance
 	 * @throws ClassNotFoundException
 	 */
-	public ReflectInstance(String className, ClassLoader loader, Object instance) throws ClassNotFoundException {
-		this(new ReflectClass(className, loader), instance);
+	public RInstance(String className, ClassLoader loader, Object instance) throws ClassNotFoundException {
+		this(new RClass(className, loader), instance);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class ReflectInstance extends ReflectExecutor {
 	 *            值
 	 * @throws ClassNotFoundException
 	 */
-	public ReflectInstance(String className, Object value) throws ClassNotFoundException {
+	public RInstance(String className, Object value) throws ClassNotFoundException {
 		this(className, null, value);
 	}
 
@@ -71,16 +71,16 @@ public class ReflectInstance extends ReflectExecutor {
 	 * 
 	 * @param instance
 	 */
-	public ReflectInstance(Object instance) {
+	public RInstance(Object instance) {
 		if (instance == null) {
 			throw new IllegalArgumentException("instance can't be null");
 		}
-		this.reflectClass = new ReflectClass(instance.getClass());
+		this.reflectClass = new RClass(instance.getClass());
 		this.instance = instance;
 	}
 
 	@Override
-	protected ReflectClass getReflectClass() {
+	protected RClass getReflectClass() {
 		return reflectClass;
 	}
 

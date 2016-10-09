@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * 用于处理反射Class类
  */
-public class ReflectClass extends ReflectExecutor {
+public class RClass extends RExecutor {
 
 	private static final HashMap<String, Class<?>> sClassMap = new HashMap<String, Class<?>>();
 	private static final HashMap<String, Constructor<?>> sConstructorMap = new HashMap<String, Constructor<?>>();
@@ -22,7 +22,7 @@ public class ReflectClass extends ReflectExecutor {
 	 * @param loader
 	 * @throws ClassNotFoundException
 	 */
-	public ReflectClass(String className, ClassLoader loader) throws ClassNotFoundException {
+	public RClass(String className, ClassLoader loader) throws ClassNotFoundException {
 		if (className == null) {
 			throw new IllegalArgumentException("className can't be empty");
 		}
@@ -52,7 +52,7 @@ public class ReflectClass extends ReflectExecutor {
 	 * @param className
 	 * @throws ClassNotFoundException
 	 */
-	public ReflectClass(String className) throws ClassNotFoundException {
+	public RClass(String className) throws ClassNotFoundException {
 		this(className, null);
 	}
 
@@ -61,7 +61,7 @@ public class ReflectClass extends ReflectExecutor {
 	 * 
 	 * @param classObj
 	 */
-	public ReflectClass(Class<?> classObj) {
+	public RClass(Class<?> classObj) {
 		if (classObj == null) {
 			throw new IllegalArgumentException("classObj can't be null");
 		}
@@ -80,7 +80,7 @@ public class ReflectClass extends ReflectExecutor {
 	 * @throws InvocationTargetException
 	 * @throws InstantiationException
 	 */
-	public Object newInstance(ReflectParam param)
+	public Object newInstance(RParam param)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		Class<?>[] paramsTypes = param == null ? null : param.getTypes();
 		String paramString = param == null ? "" : param.getString();
@@ -104,7 +104,7 @@ public class ReflectClass extends ReflectExecutor {
 	}
 
 	@Override
-	protected ReflectClass getReflectClass() {
+	protected RClass getReflectClass() {
 		return this;
 	}
 

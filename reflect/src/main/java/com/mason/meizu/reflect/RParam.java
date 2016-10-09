@@ -6,12 +6,29 @@ import java.util.List;
 /**
  * 反射参数构建
  */
-public class ReflectParam {
+public class RParam {
 	private final Object[] paramValus;
 	private final String paramString;
 	private final Class<?>[] paramTypes;
+	
+	/**
+	 * Simple method to create RParam. Be careful to use is. 
+	 * <p>If it goes something wrong, use  {@link RParam.Builder } to instead.
+	 * @param params
+	 * @return
+	 */
+	public static RParam create(Object... params) {
+		if (params == null) {
+			throw new IllegalArgumentException("params can't be null");
+		}
+		Builder builder = new Builder();
+		for (Object obj : params) {
+			builder.add(obj);
+		}
+		return builder.create();
+	}
 
-	private ReflectParam(List<ReflectInstance> list) {
+	private RParam(List<RInstance> list) {
 		if (list == null) {
 			paramValus = null;
 			paramString = "";
@@ -22,7 +39,7 @@ public class ReflectParam {
 			String str = null;
 			paramTypes = new Class[length];
 			for (int i = 0; i < length; ++i) {
-				ReflectInstance instance = list.get(i);
+				RInstance instance = list.get(i);
 				paramValus[i] = instance.getInstance();
 				paramTypes[i] = instance.getReflectClass().getClassObj();
 				String name = instance.getReflectClass().getClassName();
@@ -61,33 +78,33 @@ public class ReflectParam {
 	 * 构建反射参数列表
 	 */
 	public static class Builder {
-		private List<ReflectInstance> list;
+		private List<RInstance> list;
 
 		public Builder() {
-			list = new ArrayList<ReflectInstance>();
+			list = new ArrayList<RInstance>();
 		}
 
-		public Builder add(ReflectClass type, Object value) {
-			list.add(new ReflectInstance(type, value));
+		public Builder add(RClass type, Object value) {
+			list.add(new RInstance(type, value));
 			return this;
 		}
 
 		public Builder add(Class<?> type, Object value) {
-			list.add(new ReflectInstance(type, value));
+			list.add(new RInstance(type, value));
 			return this;
 		}
 
 		public Builder add(String type, Object value) throws ClassNotFoundException {
-			list.add(new ReflectInstance(type, value));
+			list.add(new RInstance(type, value));
 			return this;
 		}
 
 		public Builder add(Object value) {
-			list.add(new ReflectInstance(value));
+			list.add(new RInstance(value));
 			return this;
 		}
 
-		public Builder add(ReflectInstance instance) {
+		public Builder add(RInstance instance) {
 			if (instance == null) {
 				throw new IllegalArgumentException("instance can't be null");
 			}
@@ -95,8 +112,8 @@ public class ReflectParam {
 			return this;
 		}
 
-		public ReflectParam create() {
-			return new ReflectParam(list);
+		public RParam create() {
+			return new RParam(list);
 		}
 	}
 }
