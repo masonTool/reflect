@@ -66,6 +66,11 @@ abstract class RExecutor {
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		return execute(null, methodName, param);
 	}
+	
+	public Object execute(String methodName)
+			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+		return execute(methodName, null);
+	}
 
 	/**
 	 * 为一个参数赋值。

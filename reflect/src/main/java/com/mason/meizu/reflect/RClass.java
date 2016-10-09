@@ -69,7 +69,7 @@ public class RClass extends RExecutor {
 		this.className = classObj.getName();
 		sClassMap.put(className, classObj);
 	}
-
+	
 	/**
 	 * 创建实例
 	 * 
@@ -101,6 +101,27 @@ public class RClass extends RExecutor {
 			}
 		}
 		return constructor.newInstance(paramValus);
+	}
+	
+	public Object newInstance() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		return newInstance(null);
+	}
+	
+	/**
+	 * Create RInstance instance
+	 * @param param
+	 * @return
+	 * @throws NoSuchMethodException
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws InstantiationException
+	 */
+	public RInstance newRInstance(RParam param) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		return new RInstance(newInstance(param));
+	}
+	
+	public RInstance newRInstance() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		return newRInstance(null);
 	}
 
 	@Override
