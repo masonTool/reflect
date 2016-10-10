@@ -65,8 +65,7 @@ We suppose all the classes, parameters, methods should be reflected. You can do 
 
 2. Get / Set normal value in class.
 
-        Object instance = clazzA.newInstance(null);//get instance
-        RInstance instanceA = new RInstance(instance); //wrap with RInstance
+        RInstance instanceA = clazzA.newWrappedInstance();
         instanceA.setValue("normalString", "normal changed!!!!!");
         String normalString = instanceA.getValue("normalString");
 
