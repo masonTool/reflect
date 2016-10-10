@@ -6,28 +6,43 @@ import java.util.List;
 /**
  * 反射参数构建
  */
-public class RParam {
+class RParam {
 	private final Object[] paramValus;
 	private final String paramString;
 	private final Class<?>[] paramTypes;
 	
 	/**
-	 * Simple method to create RParam. Be careful to use is. 
+	 * Simple method to create RParam. Just like (Class1, value1, Class2, value2, Class3, value3...)
 	 * <p>If it goes something wrong, use  {@link RParam.Builder } to instead.
 	 * @param params
 	 * @return
 	 */
-	public static RParam create(Object... params) {
-		if (params == null) {
-			throw new IllegalArgumentException("params can't be null");
+	static RParam create(Object... params) {
+		if (params == null || params.length % 2 != 0) {
+			throw new IllegalArgumentException("params can't be null or length odd");
 		}
-		Builder builder = new Builder();
-		for (Object obj : params) {
-			builder.add(obj);
+		List<RInstance> list = new ArrayList<RInstance>();
+		for (int index = 0; index < params.length; index +=2) {
+			Object type = params[index];
+			Object value = params[index + 1];
+			
+			if (type instanceof RClass) {
+				list.add(new RInstance((RClass)type, value));
+			} else if (type instanceof Class<?>) {
+				list.add(new RInstance(( Class<?>)type, value));
+			} else if (type instanceof String){
+				try {
+					list.add(new RInstance((String)type, value));
+				} catch (ClassNotFoundException e) {
+					throw new IllegalArgumentException("params error type, in " + index + " of params" );
+				}
+			} else {
+				throw new IllegalArgumentException("params error type, in " + index + " of params" );
+			}
 		}
-		return builder.create();
+		return new RParam(list);
 	}
-
+	
 	private RParam(List<RInstance> list) {
 		if (list == null) {
 			paramValus = null;
@@ -56,64 +71,21 @@ public class RParam {
 	/**
 	 * 获取参数的类型列表
 	 */
-	public Class<?>[] getTypes() {
+	Class<?>[] getTypes() {
 		return paramTypes;
 	}
 
 	/**
 	 * 获取参数值列表
 	 */
-	public Object[] getValus() {
+	Object[] getValus() {
 		return paramValus;
 	}
 
 	/**
 	 * 获取参数列表String
 	 */
-	public String getString() {
+	String getString() {
 		return paramString;
-	}
-
-	/**
-	 * 构建反射参数列表
-	 */
-	public static class Builder {
-		private List<RInstance> list;
-
-		public Builder() {
-			list = new ArrayList<RInstance>();
-		}
-
-		public Builder add(RClass type, Object value) {
-			list.add(new RInstance(type, value));
-			return this;
-		}
-
-		public Builder add(Class<?> type, Object value) {
-			list.add(new RInstance(type, value));
-			return this;
-		}
-
-		public Builder add(String type, Object value) throws ClassNotFoundException {
-			list.add(new RInstance(type, value));
-			return this;
-		}
-
-		public Builder add(Object value) {
-			list.add(new RInstance(value));
-			return this;
-		}
-
-		public Builder add(RInstance instance) {
-			if (instance == null) {
-				throw new IllegalArgumentException("instance can't be null");
-			}
-			list.add(instance);
-			return this;
-		}
-
-		public RParam create() {
-			return new RParam(list);
-		}
 	}
 }

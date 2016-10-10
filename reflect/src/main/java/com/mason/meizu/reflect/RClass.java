@@ -71,20 +71,20 @@ public class RClass extends RExecutor {
 	}
 	
 	/**
-	 * 创建实例
-	 * 
-	 * @param param
+	 * Create instance object of this RClass
+	 * @param params The format like  (Class1, value1, Class2, value2, Class3, value3...)
 	 * @return
 	 * @throws NoSuchMethodException
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 * @throws InstantiationException
 	 */
-	public Object newInstance(RParam param)
+	public Object newInstance(Object... params)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		Class<?>[] paramsTypes = param == null ? null : param.getTypes();
-		String paramString = param == null ? "" : param.getString();
-		Object[] paramValus = param == null ? null : param.getValus();
+		RParam rParam = params == null ? null : RParam.create(params);
+		Class<?>[] paramsTypes = rParam == null ? null : rParam.getTypes();
+		String paramString = rParam == null ? "" : rParam.getString();
+		Object[] paramValus = rParam == null ? null : rParam.getValus();
 
 		String key = className + "(" + paramString + ")";
 		Constructor<?> constructor = sConstructorMap.get(key);
@@ -103,34 +103,27 @@ public class RClass extends RExecutor {
 		return constructor.newInstance(paramValus);
 	}
 	
-	public Object newInstance() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		return newInstance(null);
-	}
 	
 	/**
-	 * Create RInstance instance
-	 * @param param
+	 * Create instance object of this RClass.   Wrapped with RInstance.
+	 * @param params
 	 * @return
 	 * @throws NoSuchMethodException
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 * @throws InstantiationException
 	 */
-	public RInstance newRInstance(RParam param) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		return new RInstance(newInstance(param));
-	}
-	
-	public RInstance newRInstance() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		return newRInstance(null);
+	public RInstance newWrappedInstance(Object... params) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		return new RInstance(newInstance(params));
 	}
 
 	@Override
-	protected RClass getReflectClass() {
+	public RClass getReflectClass() {
 		return this;
 	}
 
 	@Override
-	protected Object getInstance() {
+	public Object getInstance() {
 		return null;
 	}
 

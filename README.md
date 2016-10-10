@@ -10,14 +10,14 @@ Download [the latest JAR][1] or grab via Maven:
 
 For gradle:
 
-        compile 'com.github.masontool:reflect:2.0.1'
+        compile 'com.github.masontool:reflect:2.1.0'
 
 For maven:
 
         <dependency>
           <groupId>com.github.masontool</groupId>
           <artifactId>reflect</artifactId>
-          <version>2.0.1</version>
+          <version>2.1.0</version>
         </dependency>
 
 ## Useful
@@ -61,37 +61,30 @@ We suppose all the classes, parameters, methods should be reflected. You can do 
 
         RClass clazzA = new RClass("com.mason.meizu.sample.prvclass.ClassA");
         clazzA.setValue("staticString", "static changed!!!!!");
-        String staticString = (String) clazzA.getValue("staticString");
+        String staticString = clazzA.getValue("staticString");
 
 2. Get / Set normal value in class.
 
         Object instance = clazzA.newInstance(null);//get instance
         RInstance instanceA = new RInstance(instance); //wrap with RInstance
         instanceA.setValue("normalString", "normal changed!!!!!");
-        String normalString = (String) instanceA.getValue("normalString");
+        String normalString = instanceA.getValue("normalString");
 
 3. Excute static method.
 
-        //integer defaul, no need to specify the type
-        RParam plusParam = RParam.create(5, 4);
-        Integer plusResult = (Integer) clazzA.execute("plus", plusParam);
+        Integer plusResult = clazzA.execute("plus", Integer.class, 5, Integer.class, 4);
 
 4. Excute normal method.
 
-        RParam minusParam = new RParam.Builder()
-                .add(long.class, 5)
-                .add(long.class, 4)
-                .create();
-        long minusResult = (long) instanceA.execute("minus", minusParam);
+        long minusResult = instanceA.execute("minus", long.class, 5, long.class, 4);
 
 5. Support nested call. Here is a complex sample
 
-        RClass clazzB = new RClass("com.mason.meizu.sample.prvclass.ClassB");
-        RInstance instanceB = new RInstance(clazzB.newInstance(null));
-        RClass clazzC = new RClass("com.mason.meizu.sample.prvclass.ClassC");
-        RInstance instanceC = new RInstance(clazzC.newInstance(null));
-        RParam complexParam = RParam.create(instanceB, instanceC);
-        int complexResult = (int) clazzA.execute("plus", complexParam);
+			RClass clazzB = new RClass("com.mason.meizu.sample.prvclass.ClassB");
+			RClass clazzC = new RClass("com.mason.meizu.sample.prvclass.ClassC");
+			int complexResult1 = clazzA.execute("plus", 
+					clazzB, clazzB.newInstance(), 
+					clazzC, clazzC.newInstance());
 
 
 ## Feedback

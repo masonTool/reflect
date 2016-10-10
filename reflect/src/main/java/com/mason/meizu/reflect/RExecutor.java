@@ -24,26 +24,24 @@ abstract class RExecutor {
 	 * 如果执行的方法非当前类定义的方法. 需设置target指定目标类。没有指定目标类，
 	 * 调用{@link #execute(String, RParam)}即可。 这种情况会从当前类中查找。
 	 * 
-	 * @param target
-	 *            目标类.
-	 * @param methodName
-	 *            方法名
-	 * @param param
-	 *            方法参数
+	 * @param target 目标类.
+	 * @param methodName 方法名
+	 * @param params 方法参数 The format like  (Class1, value1, Class2, value2, Class3, value3...)
 	 * @return 执行结果
 	 * @throws NoSuchMethodException
 	 * @throws InvocationTargetException
 	 * @throws IllegalAccessException
 	 */
-	public Object execute(RClass target, String methodName, RParam param)
+	@SuppressWarnings("unchecked")
+	public <T> T execute(RClass target, String methodName, Object... params)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		if (target == null) {
 			target = getReflectClass();
 		}
-
-		Class<?>[] paramsTypes = param == null ? null : param.getTypes();
-		String paramString = param == null ? "" : param.getString();
-		Object[] paramValus = param == null ? null : param.getValus();
+		RParam rParam = params == null ? null : RParam.create(params);
+		Class<?>[] paramsTypes = rParam == null ? null : rParam.getTypes();
+		String paramString = rParam == null ? "" : rParam.getString();
+		Object[] paramValus = rParam == null ? null : rParam.getValus();
 
 		String key = target.getClassName() + "." + methodName + "(" + paramString + ")";
 		Method method = sMethodMap.get(key);
@@ -59,19 +57,14 @@ abstract class RExecutor {
 				}
 			}
 		}
-		return method.invoke(getInstance(), paramValus);
+		return (T) method.invoke(getInstance(), paramValus);
 	}
 
-	public Object execute(String methodName, RParam param)
+	public <T> T execute(String methodName, Object... params)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-		return execute(null, methodName, param);
+		return execute(null, methodName, params);
 	}
 	
-	public Object execute(String methodName)
-			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-		return execute(methodName, null);
-	}
-
 	/**
 	 * 为一个参数赋值。
 	 * <p>
@@ -142,7 +135,8 @@ abstract class RExecutor {
 	 * @throws IllegalAccessException
 	 * @throws NoSuchFieldException
 	 */
-	public Object getValue(RClass target, String fieldName) throws IllegalAccessException, NoSuchFieldException {
+	@SuppressWarnings("unchecked")
+	public <T> T getValue(RClass target, String fieldName) throws IllegalAccessException, NoSuchFieldException {
 		if (target == null) {
 			target = getReflectClass();
 		}
@@ -161,7 +155,7 @@ abstract class RExecutor {
 				}
 			}
 		}
-		return field.get(getInstance());
+		return (T) field.get(getInstance());
 	}
 
 	/**
@@ -172,12 +166,12 @@ abstract class RExecutor {
 	 * @throws NoSuchFieldException
 	 * @throws IllegalAccessException
 	 */
-	public Object getValue(String fieldName) throws NoSuchFieldException, IllegalAccessException {
+	public <T> T getValue(String fieldName) throws NoSuchFieldException, IllegalAccessException {
 		return getValue(null, fieldName);
 	}
 
-	protected abstract RClass getReflectClass();
+	public abstract RClass getReflectClass();
 
-	protected abstract Object getInstance();
+	public abstract Object getInstance();
 
 }

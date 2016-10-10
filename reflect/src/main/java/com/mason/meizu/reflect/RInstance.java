@@ -22,9 +22,6 @@ public class RInstance extends RExecutor {
 		if (reflectClass == null) {
 			throw new IllegalArgumentException("reflectClass can't be null");
 		}
-		if (instance == null) {
-			throw new IllegalArgumentException("instance can't be null");
-		}
 		this.reflectClass = reflectClass;
 		this.instance = instance;
 	}
@@ -67,8 +64,7 @@ public class RInstance extends RExecutor {
 	}
 
 	/**
-	 * 构造函数, 构造反射实例
-	 * 
+	 * Be careful to be used. Attention to it's Class 
 	 * @param instance
 	 */
 	public RInstance(Object instance) {
@@ -80,12 +76,12 @@ public class RInstance extends RExecutor {
 	}
 
 	@Override
-	protected RClass getReflectClass() {
+	public RClass getReflectClass() {
 		return reflectClass;
 	}
 
 	@Override
-	protected Object getInstance() {
+	public Object getInstance() {
 		return instance;
 	}
 }
