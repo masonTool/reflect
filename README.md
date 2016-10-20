@@ -10,14 +10,14 @@ Download [the latest JAR][1] or grab via Maven:
 
 For gradle:
 
-        compile 'com.github.masontool:reflect:2.1.0'
+        compile 'com.github.masontool:reflect:2.1.1'
 
 For maven:
 
         <dependency>
           <groupId>com.github.masontool</groupId>
           <artifactId>reflect</artifactId>
-          <version>2.1.0</version>
+          <version>2.1.1</version>
         </dependency>
 
 ## Useful
