@@ -8,7 +8,6 @@ import java.util.List;
  */
 class RParam {
 	private final Object[] paramValus;
-	private final String paramString;
 	private final Class<?>[] paramTypes;
 	
 	/**
@@ -46,25 +45,16 @@ class RParam {
 	private RParam(List<RInstance> list) {
 		if (list == null) {
 			paramValus = null;
-			paramString = "";
 			paramTypes = null;
 		} else {
 			int length = list.size();
 			paramValus = new Object[length];
-			String str = null;
 			paramTypes = new Class[length];
 			for (int i = 0; i < length; ++i) {
 				RInstance instance = list.get(i);
 				paramValus[i] = instance.getInstance();
 				paramTypes[i] = instance.getReflectClass().getClassObj();
-				String name = instance.getReflectClass().getClassName();
-				if (str == null) {
-					str = name;
-				} else {
-					str = str + ", " + name;
-				}
 			}
-			paramString = str;
 		}
 	}
 
@@ -81,11 +71,21 @@ class RParam {
 	Object[] getValus() {
 		return paramValus;
 	}
-
+	
 	/**
-	 * 获取参数列表String
+	 * Class Param change to String
+	 * @param types
+	 * @return
 	 */
-	String getString() {
-		return paramString;
+	public static String typeToString(Class<?>[] types) {
+		String typeStr = null;
+		for (Class<?> clazz : types) {
+			if (typeStr == null) {
+				typeStr = clazz.getName();
+			} else {
+				typeStr = typeStr + "," + clazz.getName();
+			}
+		}
+		return typeStr == null ? "" : typeStr;
 	}
 }

@@ -13,11 +13,15 @@ public class Main {
 			RClass clazzA = new RClass("com.mason.meizu.sample.prvclass.ClassA");
 			clazzA.setValue("staticString", "static changed!!!!!");
 			String staticString = clazzA.getValue("staticString");
+			
+			clazzA.setValue("staticInt", 100);
+			int value = clazzA.getValue("staticInt");
 
 			// 获取和设置 隐藏类ClassA的实例，并获取实例内变量normalString的值
 			RInstance instanceA = clazzA.newWrappedInstance();// 获得实例
 			instanceA.setValue("normalString", "normal changed!!!!!");
 			String normalString = instanceA.getValue("normalString");
+			int vvv = instanceA.getValue("staticInt");
 
 			// 执行隐藏类ClassA的静态方法plus
 			Integer plusResult = clazzA.execute("plus", Integer.class, 5, Integer.class, 4);

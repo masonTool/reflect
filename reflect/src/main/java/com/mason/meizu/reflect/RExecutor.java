@@ -35,28 +35,11 @@ abstract class RExecutor {
 	@SuppressWarnings("unchecked")
 	public <T> T execute(RClass target, String methodName, Object... params)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-		if (target == null) {
-			target = getReflectClass();
-		}
 		RParam rParam = params == null ? null : RParam.create(params);
 		Class<?>[] paramsTypes = rParam == null ? null : rParam.getTypes();
-		String paramString = rParam == null ? "" : rParam.getString();
 		Object[] paramValus = rParam == null ? null : rParam.getValus();
 
-		String key = target.getClassName() + "." + methodName + "(" + paramString + ")";
-		Method method = sMethodMap.get(key);
-		if (method == null) {
-			if (sMethodMap.containsKey(key)) {
-				throw new NoSuchMethodException(key);
-			} else {
-				try {
-					method = target.getClassObj().getDeclaredMethod(methodName, paramsTypes);
-					method.setAccessible(true);
-				} finally {
-					sMethodMap.put(key, method);
-				}
-			}
-		}
+		Method method = getMethod(target, methodName, paramsTypes);
 		return (T) method.invoke(getInstance(), paramValus);
 	}
 
@@ -85,24 +68,7 @@ abstract class RExecutor {
 	 */
 	public void setValue(RClass target, String fieldName, Object value)
 			throws NoSuchFieldException, IllegalAccessException {
-		if (target == null) {
-			target = getReflectClass();
-		}
-
-		String key = target.getClassName() + "." + fieldName;
-		Field field = sFieldMap.get(key);
-		if (field == null) {
-			if (sFieldMap.containsKey(key)) {
-				throw new NoSuchFieldException(key);
-			} else {
-				try {
-					field = target.getClassObj().getDeclaredField(fieldName);
-					field.setAccessible(true);
-				} finally {
-					sFieldMap.put(key, field);
-				}
-			}
-		}
+		Field field = getField(target, fieldName);
 		field.set(getInstance(), value);
 	}
 
@@ -137,6 +103,72 @@ abstract class RExecutor {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(RClass target, String fieldName) throws IllegalAccessException, NoSuchFieldException {
+		Field field = getField(target, fieldName);
+		return (T) field.get(getInstance());
+	}
+
+	/**
+	 * 获取参数值
+	 * 
+	 * @param fieldName
+	 * @return
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException
+	 */
+	public <T> T getValue(String fieldName) throws NoSuchFieldException, IllegalAccessException {
+		return getValue(null, fieldName);
+	}
+	
+	/**
+	 * Get the Method from cache or reflect
+	 * @param target maybe super class
+	 * @param methodName
+	 * @param parameterTypes
+	 * @return
+	 * @throws NoSuchMethodException 
+	 */
+	public Method getMethod(RClass target, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
+		if (target == null) {
+			target = getReflectClass();
+		}
+		String key = target.getClassName() + "." + methodName + "(" + RParam.typeToString(parameterTypes) + ")";
+		Method method = sMethodMap.get(key);
+		if (method == null) {
+			if (sMethodMap.containsKey(key)) {
+				throw new NoSuchMethodException(key);
+			} else {
+				try {
+					method = target.getClassObj().getDeclaredMethod(methodName, parameterTypes);
+					method.setAccessible(true);
+				} finally {
+					sMethodMap.put(key, method);
+				}
+			}
+		}
+		return method;
+	}
+	
+	/**
+	 * Get the Method from cache or reflect
+	 * @param methodName
+	 * @param parameterTypes
+	 * @return
+	 * @throws NoSuchMethodException 
+	 */
+	public Method getMethod(String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
+		return getMethod(null, methodName, parameterTypes);
+	}
+
+	
+	/**
+	 * Get the Field from cache or reflect
+	 * @param target may be super class
+	 * @param fieldName
+	 * @return
+	 * @throws SecurityException 
+	 * @throws NoSuchFieldException 
+	 */
+	public Field getField(RClass target, String fieldName) throws NoSuchFieldException, SecurityException {
 		if (target == null) {
 			target = getReflectClass();
 		}
@@ -155,23 +187,21 @@ abstract class RExecutor {
 				}
 			}
 		}
-		return (T) field.get(getInstance());
+		return field;
 	}
-
+	
 	/**
-	 * 获取参数值
-	 * 
+	 * Get the Field from cache or reflect
 	 * @param fieldName
 	 * @return
 	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException
+	 * @throws SecurityException
 	 */
-	public <T> T getValue(String fieldName) throws NoSuchFieldException, IllegalAccessException {
-		return getValue(null, fieldName);
+	public Field getField(String fieldName) throws NoSuchFieldException, SecurityException {
+		return getField(null, fieldName);
 	}
 
 	public abstract RClass getReflectClass();
 
 	public abstract Object getInstance();
-
 }

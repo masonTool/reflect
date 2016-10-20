@@ -79,28 +79,14 @@ public class RClass extends RExecutor {
 	 * @throws InvocationTargetException
 	 * @throws InstantiationException
 	 */
-	public Object newInstance(Object... params)
+	@SuppressWarnings("unchecked")
+	public <T> T newInstance(Object... params)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		RParam rParam = params == null ? null : RParam.create(params);
 		Class<?>[] paramsTypes = rParam == null ? null : rParam.getTypes();
-		String paramString = rParam == null ? "" : rParam.getString();
 		Object[] paramValus = rParam == null ? null : rParam.getValus();
-
-		String key = className + "(" + paramString + ")";
-		Constructor<?> constructor = sConstructorMap.get(key);
-		if (constructor == null) {
-			if (sConstructorMap.containsKey(key)) {
-				throw new NoSuchMethodException(key);
-			} else {
-				try {
-					constructor = classObj.getDeclaredConstructor(paramsTypes);
-					constructor.setAccessible(true);
-				} finally {
-					sConstructorMap.put(key, constructor);
-				}
-			}
-		}
-		return constructor.newInstance(paramValus);
+		Constructor<?> constructor = getConstructor(paramsTypes);
+		return (T) constructor.newInstance(paramValus);
 	}
 	
 	
@@ -131,7 +117,35 @@ public class RClass extends RExecutor {
 		return className;
 	}
 
+	/**
+	 * Get the real class, it should be cached
+	 * @return
+	 */
 	public Class<?> getClassObj() {
 		return classObj;
+	}
+	
+	/**
+	 * Get the Constructor from cache or reflect
+	 * @param parameterTypes
+	 * @return
+	 * @throws NoSuchMethodException
+	 */
+	public Constructor<?> getConstructor(Class<?>... parameterTypes) throws NoSuchMethodException {
+		String key = className + "(" + RParam.typeToString(parameterTypes) + ")";
+		Constructor<?> constructor = sConstructorMap.get(key);
+		if (constructor == null) {
+			if (sConstructorMap.containsKey(key)) {
+				throw new NoSuchMethodException(key);
+			} else {
+				try {
+					constructor = classObj.getDeclaredConstructor(parameterTypes);
+					constructor.setAccessible(true);
+				} finally {
+					sConstructorMap.put(key, constructor);
+				}
+			}
+		}
+		return constructor;
 	}
 }

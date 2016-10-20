@@ -6,6 +6,8 @@ package com.mason.meizu.sample.prvclass;
 class ClassA {
 	protected static String staticString = "HELLO";
 	private String normalString = "WORLD";
+	
+	protected static int staticInt = 0;
 
 	// 有返回值有参数
 	private static Integer plus(Integer a, Integer b) {
