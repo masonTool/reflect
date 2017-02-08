@@ -1,154 +1,154 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
-  <groupId>com.github.masontool</groupId>
-  <artifactId>reflect</artifactId>
-  <version>2.1.1</version>
-  <packaging>jar</packaging>
+	<groupId>com.github.masontool</groupId>
+	<artifactId>reflect</artifactId>
+	<version>2.2.0</version>
+	<packaging>jar</packaging>
 
-  <name>reflect</name>
-  <description>Simplify the reflect operation for Java.</description>
-  <url>https://github.com/masonTool/reflect</url>
+	<name>reflect</name>
+	<description>Simplify the reflect operation for Java.</description>
+	<url>https://github.com/masonTool/reflect</url>
 
-  <organization>
-    <name>MEIZU, Inc.</name>
-    <url>http://www.meizu.com</url>
-  </organization>
-  
-    <licenses>
-    <license>
-      <name>Apache 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-  
-    <developers>
-    <developer>
-        <name>Mason Ma</name>
-        <email>307416073@qq.com</email>
-        <roles>
-            <role>developer</role>
-        </roles>
-        <timezone>+8</timezone>
-    </developer>
-</developers>
+	<organization>
+		<name>MEIZU, Inc.</name>
+		<url>http://www.meizu.com</url>
+	</organization>
 
-  <scm>
-    <url>https://github.com/masonTool/reflect</url>
-    <connection>scm:git:git://github.com/masonTool/reflect.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/masonTool/reflect.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-  
-    <issueManagement>
-    <system>GitHub Issues</system>
-    <url>http://github.com/masonTool/reflect/issues</url>
-  </issueManagement>
-  
-    <distributionManagement>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
+	<licenses>
+		<license>
+			<name>Apache 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.sourceEncoding>UTF-8</project.reporting.sourceEncoding>
-  </properties>
+	<developers>
+		<developer>
+			<name>Mason Ma</name>
+			<email>307416073@qq.com</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+8</timezone>
+		</developer>
+	</developers>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <build>
-        <plugins>
-            <plugin>
-               <groupId>org.sonatype.plugins</groupId>
-               <artifactId>nexus-staging-maven-plugin</artifactId>
-               <version>1.6.3</version>
-               <extensions>true</extensions>
-               <configuration>
-                 <serverId>ossrh</serverId>
-                 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                 <autoReleaseAfterClose>true</autoReleaseAfterClose>
-               </configuration>
-             </plugin>
-             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-release-plugin</artifactId>
-                 <version>2.5</version>
-                 <configuration>
-                   <autoVersionSubmodules>true</autoVersionSubmodules>
-                   <useReleaseProfile>false</useReleaseProfile>
-                   <releaseProfiles>release</releaseProfiles>
-                   <goals>deploy</goals>
-                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-gpg-plugin</artifactId>
-               <version>1.5</version>
-               <executions>
-                 <execution>
-                   <id>sign-artifacts</id>
-                   <phase>verify</phase>
-                   <goals>
-                     <goal>sign</goal>
-                   </goals>
-                 </execution>
-               </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-         </plugins>
-    </build>
+	<scm>
+		<url>https://github.com/masonTool/reflect</url>
+		<connection>scm:git:git://github.com/masonTool/reflect.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/masonTool/reflect.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>http://github.com/masonTool/reflect/issues</url>
+	</issueManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.sourceEncoding>UTF-8</project.reporting.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

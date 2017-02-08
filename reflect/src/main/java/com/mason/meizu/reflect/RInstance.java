@@ -29,10 +29,8 @@ public class RInstance extends RExecutor {
 	/**
 	 * 构造函数， 构造反射实例
 	 * 
-	 * @param type
-	 *            类型
-	 * @param instance
-	 *            值
+	 * @param type 类型
+	 * @param instance 值
 	 */
 	public RInstance(Class<?> type, Object instance) {
 		this(new RClass(type), instance);
@@ -41,10 +39,10 @@ public class RInstance extends RExecutor {
 	/**
 	 * 构造函数, 构造反射实例
 	 * 
-	 * @param className
-	 * @param loader
-	 * @param instance
-	 * @throws ClassNotFoundException
+	 * @param className className
+	 * @param loader loader
+	 * @param instance instance
+	 * @throws ClassNotFoundException ClassNotFoundException
 	 */
 	public RInstance(String className, ClassLoader loader, Object instance) throws ClassNotFoundException {
 		this(new RClass(className, loader), instance);
@@ -53,11 +51,9 @@ public class RInstance extends RExecutor {
 	/**
 	 * 构造函数， 构造反射实例
 	 * 
-	 * @param className
-	 *            类型名
-	 * @param value
-	 *            值
-	 * @throws ClassNotFoundException
+	 * @param className 类型名
+	 * @param value 值
+	 * @throws ClassNotFoundException ClassNotFoundException
 	 */
 	public RInstance(String className, Object value) throws ClassNotFoundException {
 		this(className, null, value);
@@ -65,7 +61,7 @@ public class RInstance extends RExecutor {
 
 	/**
 	 * Be careful to be used. Attention to it's Class 
-	 * @param instance
+	 * @param instance instance
 	 */
 	public RInstance(Object instance) {
 		if (instance == null) {
@@ -76,12 +72,12 @@ public class RInstance extends RExecutor {
 	}
 
 	@Override
-	public RClass getReflectClass() {
+	RClass getReflectClass() {
 		return reflectClass;
 	}
 
 	@Override
-	public Object getInstance() {
+	Object getInstance() {
 		return instance;
 	}
 }

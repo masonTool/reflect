@@ -12,15 +12,15 @@ public class RClass extends RExecutor {
 	private static final HashMap<String, Class<?>> sClassMap = new HashMap<String, Class<?>>();
 	private static final HashMap<String, Constructor<?>> sConstructorMap = new HashMap<String, Constructor<?>>();
 
-	private String className;
-	private Class<?> classObj;
+	protected String className;
+	protected Class<?> classObj;
 
 	/**
 	 * 构造函数, 构造反射类
 	 * 
-	 * @param className
-	 * @param loader
-	 * @throws ClassNotFoundException
+	 * @param className className
+	 * @param loader loader
+	 * @throws ClassNotFoundException ClassNotFoundException
 	 */
 	public RClass(String className, ClassLoader loader) throws ClassNotFoundException {
 		if (className == null) {
@@ -49,8 +49,8 @@ public class RClass extends RExecutor {
 	/**
 	 * 构造函数, 构造反射类
 	 * 
-	 * @param className
-	 * @throws ClassNotFoundException
+	 * @param className className
+	 * @throws ClassNotFoundException ClassNotFoundException
 	 */
 	public RClass(String className) throws ClassNotFoundException {
 		this(className, null);
@@ -59,7 +59,7 @@ public class RClass extends RExecutor {
 	/**
 	 * 构造函数, 构造反射类
 	 * 
-	 * @param classObj
+	 * @param classObj classObj
 	 */
 	public RClass(Class<?> classObj) {
 		if (classObj == null) {
@@ -73,11 +73,11 @@ public class RClass extends RExecutor {
 	/**
 	 * Create instance object of this RClass
 	 * @param params The format like  (Class1, value1, Class2, value2, Class3, value3...)
-	 * @return
-	 * @throws NoSuchMethodException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws InstantiationException
+	 * @return return
+	 * @throws NoSuchMethodException NoSuchMethodException
+	 * @throws IllegalAccessException IllegalAccessException
+	 * @throws InvocationTargetException InvocationTargetException
+	 * @throws InstantiationException InstantiationException
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T newInstance(Object... params)
@@ -92,24 +92,24 @@ public class RClass extends RExecutor {
 	
 	/**
 	 * Create instance object of this RClass.   Wrapped with RInstance.
-	 * @param params
+	 * @param params params
 	 * @return
-	 * @throws NoSuchMethodException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws InstantiationException
+	 * @throws NoSuchMethodException NoSuchMethodException
+	 * @throws IllegalAccessException IllegalAccessException
+	 * @throws InvocationTargetException InvocationTargetException
+	 * @throws InstantiationException InstantiationException
 	 */
 	public RInstance newWrappedInstance(Object... params) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		return new RInstance(newInstance(params));
 	}
 
 	@Override
-	public RClass getReflectClass() {
+	RClass getReflectClass() {
 		return this;
 	}
 
 	@Override
-	public Object getInstance() {
+	Object getInstance() {
 		return null;
 	}
 
@@ -119,7 +119,7 @@ public class RClass extends RExecutor {
 
 	/**
 	 * Get the real class, it should be cached
-	 * @return
+	 * @return result
 	 */
 	public Class<?> getClassObj() {
 		return classObj;
@@ -127,9 +127,9 @@ public class RClass extends RExecutor {
 	
 	/**
 	 * Get the Constructor from cache or reflect
-	 * @param parameterTypes
-	 * @return
-	 * @throws NoSuchMethodException
+	 * @param parameterTypes parameterTypes
+	 * @return result
+	 * @throws NoSuchMethodException NoSuchMethodException
 	 */
 	public Constructor<?> getConstructor(Class<?>... parameterTypes) throws NoSuchMethodException {
 		String key = className + "(" + RParam.typeToString(parameterTypes) + ")";

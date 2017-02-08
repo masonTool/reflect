@@ -22,15 +22,15 @@ abstract class RExecutor {
 	 * 是执行实例方法。
 	 * <p>
 	 * 如果执行的方法非当前类定义的方法. 需设置target指定目标类。没有指定目标类，
-	 * 调用{@link #execute(String, RParam)}即可。 这种情况会从当前类中查找。
+	 * 调用{@link #execute(String, Object...)}即可。 这种情况会从当前类中查找。
 	 * 
 	 * @param target 目标类.
 	 * @param methodName 方法名
 	 * @param params 方法参数 The format like  (Class1, value1, Class2, value2, Class3, value3...)
 	 * @return 执行结果
-	 * @throws NoSuchMethodException
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
+	 * @throws NoSuchMethodException NoSuchMethodException
+	 * @throws InvocationTargetException InvocationTargetException
+	 * @throws IllegalAccessException IllegalAccessException
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T execute(RClass target, String methodName, Object... params)
@@ -98,8 +98,8 @@ abstract class RExecutor {
 	 * @param fieldName
 	 *            参数名
 	 * @return 参数值
-	 * @throws IllegalAccessException
-	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException IllegalAccessException
+	 * @throws NoSuchFieldException NoSuchFieldException
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(RClass target, String fieldName) throws IllegalAccessException, NoSuchFieldException {
@@ -110,10 +110,10 @@ abstract class RExecutor {
 	/**
 	 * 获取参数值
 	 * 
-	 * @param fieldName
-	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException
+	 * @param fieldName fieldName
+	 * @return return
+	 * @throws NoSuchFieldException NoSuchFieldException
+	 * @throws IllegalAccessException IllegalAccessException
 	 */
 	public <T> T getValue(String fieldName) throws NoSuchFieldException, IllegalAccessException {
 		return getValue(null, fieldName);
@@ -122,10 +122,10 @@ abstract class RExecutor {
 	/**
 	 * Get the Method from cache or reflect
 	 * @param target maybe super class
-	 * @param methodName
-	 * @param parameterTypes
-	 * @return
-	 * @throws NoSuchMethodException 
+	 * @param methodName methodName
+	 * @param parameterTypes parameterTypes
+	 * @return @return
+	 * @throws NoSuchMethodException NoSuchMethodException
 	 */
 	public Method getMethod(RClass target, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
 		if (target == null) {
@@ -150,10 +150,10 @@ abstract class RExecutor {
 	
 	/**
 	 * Get the Method from cache or reflect
-	 * @param methodName
-	 * @param parameterTypes
-	 * @return
-	 * @throws NoSuchMethodException 
+	 * @param methodName methodName
+	 * @param parameterTypes parameterTypes
+	 * @return return
+	 * @throws NoSuchMethodException  NoSuchMethodException
 	 */
 	public Method getMethod(String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
 		return getMethod(null, methodName, parameterTypes);
@@ -163,10 +163,10 @@ abstract class RExecutor {
 	/**
 	 * Get the Field from cache or reflect
 	 * @param target may be super class
-	 * @param fieldName
-	 * @return
-	 * @throws SecurityException 
-	 * @throws NoSuchFieldException 
+	 * @param fieldName fieldName
+	 * @return filed value
+	 * @throws SecurityException  SecurityException
+	 * @throws NoSuchFieldException NoSuchFieldException 
 	 */
 	public Field getField(RClass target, String fieldName) throws NoSuchFieldException, SecurityException {
 		if (target == null) {
@@ -192,16 +192,16 @@ abstract class RExecutor {
 	
 	/**
 	 * Get the Field from cache or reflect
-	 * @param fieldName
-	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws SecurityException
+	 * @param fieldName fieldName
+	 * @return filed value
+	 * @throws NoSuchFieldException NoSuchFieldException
+	 * @throws SecurityException SecurityException
 	 */
 	public Field getField(String fieldName) throws NoSuchFieldException, SecurityException {
 		return getField(null, fieldName);
 	}
 
-	public abstract RClass getReflectClass();
+	abstract RClass getReflectClass();
 
-	public abstract Object getInstance();
+	abstract Object getInstance();
 }

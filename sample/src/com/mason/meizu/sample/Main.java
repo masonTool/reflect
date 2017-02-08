@@ -4,11 +4,27 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.mason.meizu.reflect.RClass;
 import com.mason.meizu.reflect.RInstance;
+import com.mason.meizu.reflect.RInterface;
 
 public class Main {
-
+	
+	public static class Demo {
+		
+//		If the parameter is a hide type. you can use this method. Be careful for the type handler.
+//		public int onChange(Object[] i) {
+//			return (int)i[0];
+//		}
+		
+		//The common define
+		public int onChange(int i) {
+			return i;
+		}
+	}
+	
 	public static void main(String[] args) {
+		
 		try {
+			
 			// 获取和设置 隐藏类ClassA的隐藏静态变量 staticString
 			RClass clazzA = new RClass("com.mason.meizu.sample.prvclass.ClassA");
 			clazzA.setValue("staticString", "static changed!!!!!");
@@ -34,6 +50,13 @@ public class Main {
 					clazzB, clazzB.newInstance(), 
 					clazzC, clazzC.newInstance());
 			
+			//interface 
+			RInterface in = new RInterface("com.mason.meizu.sample.prvclass.ClassD4Listener$Listener");
+			RClass lis = new RClass("com.mason.meizu.sample.prvclass.ClassD4Listener");
+			Object interface1 = in.newInstance(new Demo());
+			int testInterfaceResult = lis.newWrappedInstance().execute("testInterface", in, interface1, int.class, 8);
+			
+			System.out.println(testInterfaceResult);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {

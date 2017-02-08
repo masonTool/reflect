@@ -10,14 +10,14 @@ Download [the latest JAR][1] or grab via Maven:
 
 For gradle:
 
-        compile 'com.github.masontool:reflect:2.1.1'
+        compile 'com.github.masontool:reflect:2.2.0'
 
 For maven:
 
         <dependency>
           <groupId>com.github.masontool</groupId>
           <artifactId>reflect</artifactId>
-          <version>2.1.1</version>
+          <version>2.2.0</version>
         </dependency>
 
 ## Useful
@@ -55,6 +55,20 @@ ClassC:
             int value = 4;
         }
 
+ClassD4Listener:
+
+        package com.mason.meizu.sample.prvclass;
+        class ClassD4Listener {
+    
+            public int testInterface(Listener listener, int i) {
+                return listener.onChange(i);
+            }
+            
+            private static interface Listener {
+                int onChange(int i);
+            }
+        }
+
 We suppose all the classes, parameters, methods should be reflected. You can do like this:
 
 1. Get / Set static value in class.
@@ -79,11 +93,36 @@ We suppose all the classes, parameters, methods should be reflected. You can do 
 
 5. Support nested call. Here is a complex sample
 
-			RClass clazzB = new RClass("com.mason.meizu.sample.prvclass.ClassB");
-			RClass clazzC = new RClass("com.mason.meizu.sample.prvclass.ClassC");
-			int complexResult1 = clazzA.execute("plus", 
-					clazzB, clazzB.newInstance(), 
-					clazzC, clazzC.newInstance());
+		RClass clazzB = new RClass("com.mason.meizu.sample.prvclass.ClassB");
+		RClass clazzC = new RClass("com.mason.meizu.sample.prvclass.ClassC");
+		int complexResult1 = clazzA.execute("plus", 
+				clazzB, clazzB.newInstance(), 
+				clazzC, clazzC.newInstance());
+
+6. Support interface instantiation. 
+
+    * First of all. Define a class which implemented the method of this interface {Listener}. (Of course, it can't be standard. the interface is a hide class. Just use the same method name, and same parameter type.)
+
+            public class Demo {
+            
+                //If the parameter is a hide type. you can use Object[] to instead. 
+                //public int onChange(Object[] i) {
+                //  return (int)i[0];
+                //}
+                
+                public int onChange(int i) {
+                    return i;
+                }
+            }
+
+    * Next. Init RInterface and  newInstance with previous class Demo.   
+
+            RInterface in = new RInterface("com.mason.meizu.sample.prvclass.ClassD4Listener$Listener");
+            RClass lis = new RClass("com.mason.meizu.sample.prvclass.ClassD4Listener");
+            Object interface1 = in.newInstance(new Demo());
+            int testInterfaceResult = lis.newWrappedInstance().execute("testInterface", in, interface1, int.class, 8);
+
+
 
 
 ## Feedback
