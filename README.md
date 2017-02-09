@@ -1,5 +1,7 @@
 # reflect
 
+[中文版更详细哦](README_CH.md)
+
 ## Background
 
   Java reflect operation always confuse me, cause is not so intuitive. And it's low efficiency lead us can not use it very frequently. This reflect tool can help you simplify the operation and cache the reflect results. Hope can help you.
