@@ -79,11 +79,13 @@ class RParam {
 	 */
 	public static String typeToString(Class<?>[] types) {
 		String typeStr = null;
-		for (Class<?> clazz : types) {
-			if (typeStr == null) {
-				typeStr = clazz.getName();
-			} else {
-				typeStr = typeStr + "," + clazz.getName();
+		if (types != null) {
+			for (Class<?> clazz : types) {
+				if (typeStr == null) {
+					typeStr = clazz.getName();
+				} else {
+					typeStr = typeStr + "," + clazz.getName();
+				}
 			}
 		}
 		return typeStr == null ? "" : typeStr;

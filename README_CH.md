@@ -10,14 +10,14 @@
 
 通过 gradle:
 
-        compile 'com.github.masontool:reflect:2.2.0'
+        compile 'com.github.masontool:reflect:2.2.1'
 
 通过 maven:
 
         <dependency>
           <groupId>com.github.masontool</groupId>
           <artifactId>reflect</artifactId>
-          <version>2.2.0</version>
+          <version>2.2.1</version>
         </dependency>
 
 ## 使用
