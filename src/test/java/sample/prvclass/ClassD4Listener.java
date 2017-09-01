@@ -1,4 +1,4 @@
-package com.mason.meizu.sample.prvclass;
+package sample.prvclass;
 
 class ClassD4Listener {
 	

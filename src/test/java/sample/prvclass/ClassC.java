@@ -1,4 +1,4 @@
-package com.mason.meizu.sample.prvclass;
+package sample.prvclass;
 
 /**
  * Created by mapeiyu on 16-9-27.

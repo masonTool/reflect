@@ -1,10 +1,10 @@
-package com.mason.meizu.sample;
-
-import java.lang.reflect.InvocationTargetException;
+package sample;
 
 import com.mason.meizu.reflect.RClass;
 import com.mason.meizu.reflect.RInstance;
 import com.mason.meizu.reflect.RInterface;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class Main {
 	

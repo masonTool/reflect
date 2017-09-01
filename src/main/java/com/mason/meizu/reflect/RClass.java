@@ -100,7 +100,7 @@ public class RClass extends RExecutor {
 	/**
 	 * Create instance object of this RClass.   Wrapped with RInstance.
 	 * @param params params
-	 * @return
+	 * @return instance of this RClass
 	 * @throws NoSuchMethodException NoSuchMethodException
 	 * @throws IllegalAccessException IllegalAccessException
 	 * @throws InvocationTargetException InvocationTargetException
