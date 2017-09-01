@@ -131,7 +131,7 @@ abstract class RExecutor {
 		if (target == null) {
 			target = getReflectClass();
 		}
-		String key = target.getClassName() + "." + methodName + "(" + RParam.typeToString(parameterTypes) + ")";
+		String key = target.getClassSignature() + "." + methodName + "(" + RParam.typeToString(parameterTypes) + ")";
 		Method method = sMethodMap.get(key);
 		if (method == null) {
 			if (sMethodMap.containsKey(key)) {
@@ -173,7 +173,7 @@ abstract class RExecutor {
 			target = getReflectClass();
 		}
 
-		String key = target.getClassName() + "." + fieldName;
+		String key = target.getClassSignature() + "." + fieldName;
 		Field field = sFieldMap.get(key);
 		if (field == null) {
 			if (sFieldMap.containsKey(key)) {

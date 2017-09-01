@@ -14,6 +14,8 @@ public class RClass extends RExecutor {
 
 	protected String className;
 	protected Class<?> classObj;
+	private String loaderName;
+	
 
 	/**
 	 * 构造函数, 构造反射类
@@ -26,9 +28,12 @@ public class RClass extends RExecutor {
 		if (className == null) {
 			throw new IllegalArgumentException("className can't be empty");
 		}
-		Class<?> clazz = sClassMap.get(className);
+		this.className = className;
+		this.loaderName = loader == null ? "NULL" : loader.toString();
+		
+		Class<?> clazz = sClassMap.get(getClassSignature());
 		if (clazz == null) {
-			if (sClassMap.containsKey(className)) {
+			if (sClassMap.containsKey(getClassSignature())) {
 				throw new ClassNotFoundException(className);
 			} else {
 				try {
@@ -38,11 +43,11 @@ public class RClass extends RExecutor {
 						clazz = Class.forName(className, true, loader);
 					}
 				} finally {
-					sClassMap.put(className, clazz);
+					sClassMap.put(getClassSignature(), clazz);
 				}
 			}
 		}
-		this.className = className;
+		
 		this.classObj = clazz;
 	}
 
@@ -67,7 +72,9 @@ public class RClass extends RExecutor {
 		}
 		this.classObj = classObj;
 		this.className = classObj.getName();
-		sClassMap.put(className, classObj);
+		this.loaderName = classObj.getClassLoader().toString();
+		
+		sClassMap.put(getClassSignature(), classObj);
 	}
 	
 	/**
@@ -132,7 +139,7 @@ public class RClass extends RExecutor {
 	 * @throws NoSuchMethodException NoSuchMethodException
 	 */
 	public Constructor<?> getConstructor(Class<?>... parameterTypes) throws NoSuchMethodException {
-		String key = className + "(" + RParam.typeToString(parameterTypes) + ")";
+		String key = getClassSignature() + "(" + RParam.typeToString(parameterTypes) + ")";
 		Constructor<?> constructor = sConstructorMap.get(key);
 		if (constructor == null) {
 			if (sConstructorMap.containsKey(key)) {
@@ -147,5 +154,13 @@ public class RClass extends RExecutor {
 			}
 		}
 		return constructor;
+	}
+	
+	/**
+	 * get Signature for class using for cache result (think about the class loader)
+	 * @return result
+	 */
+	String getClassSignature() {
+		return loaderName + "." + className;
 	}
 }
