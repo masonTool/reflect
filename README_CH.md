@@ -10,12 +10,12 @@
 
 通过 gradle:
 
-        compile 'com.github.masontool:reflect:2.2.3'
+        compile 'com.mapeiyu.reflect:reflect:2.2.3'
 
 通过 maven:
 
         <dependency>
-          <groupId>com.github.masontool</groupId>
+          <groupId>com.mapeiyu.reflect</groupId>
           <artifactId>reflect</artifactId>
           <version>2.2.3</version>
         </dependency>

@@ -8,7 +8,7 @@ plugins {
     id "com.jfrog.bintray" version "1.7"
 }
 
-group 'com.github.masontool'
+group 'com.mapeiyu.reflect'
 version '2.2.3'
 
 allprojects {

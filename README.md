@@ -12,12 +12,12 @@ Download [the latest JAR][1] or grab via Maven:
 
 For gradle:
 
-        compile 'com.github.masontool:reflect:2.2.3'
+        compile 'com.mapeiyu.reflect:reflect:2.2.3'
 
 For maven:
 
         <dependency>
-          <groupId>com.github.masontool</groupId>
+          <groupId>com.mapeiyu.reflect</groupId>
           <artifactId>reflect</artifactId>
           <version>2.2.3</version>
         </dependency>
